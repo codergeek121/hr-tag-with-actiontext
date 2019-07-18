@@ -1,0 +1,47 @@
+<a href="#" id="hrButton" class="">Add Horizontal-Rule</a>
+<br/>
+<%= form_with(model: post, local: true) do |form| %>
+  <% if post.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% post.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :content %>
+    <%= form.rich_text_area :content %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
+
+<style>
+.attachment[data-trix-content-type="vnd.rubyonrails.horizontal-rule.html"] {
+  display: block;
+}
+</style>
+
+<script>
+document.getElementById("hrButton").addEventListener("click", event => {
+  event.preventDefault();
+  const trixEditorTag = document.querySelector("trix-editor");
+  const attachment = new Trix.Attachment({
+    content: "<hr>",
+    contentType: "vnd.rubyonrails.horizontal-rule.html"
+  })
+  trixEditorTag.editor.insertAttachment(attachment);
+})
+</script>
